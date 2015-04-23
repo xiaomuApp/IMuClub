@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="title_color">#323a45</color>          <!-- gray and black -->
+    <color name="title_blue">#2680ef</color>           <!-- 蓝色 -->
+    <color name="menu_gray">#555555</color>        <!--深灰 -->
+    <color name="item_white">#ffffff</color>       <!-- 白色 -->
+    
+    <color name="text_white">#eeeeee</color>          <!-- 白色文本 -->
+    <color name="text_black">#000000</color>     <!-- 黑色文本 -->
+    <color name="text_green">#07f90d</color>      <!-- 绿色 -->
+    
+    <color name="login_gray">#eeeeee</color>     <!-- 注册灰 -->
+</resources>

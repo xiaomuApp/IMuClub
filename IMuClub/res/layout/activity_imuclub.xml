@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.imuclub.IMuClubActivity" 
+    android:background="@color/text_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title"/>
+    <include layout="@layout/activity_tabs"/>
+
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        
+        
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_myproject"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            
+        </android.support.v4.view.ViewPager>
+        
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_mytask"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            
+        </android.support.v4.view.ViewPager>
+        
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_peoplelist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            
+        </android.support.v4.view.ViewPager>
+        
+        <include layout="@layout/activity_bottom_select"/>
+    
+    </FrameLayout>
+    
+</LinearLayout>

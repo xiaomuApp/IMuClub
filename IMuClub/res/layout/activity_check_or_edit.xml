@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/title_blue"
+        android:orientation="horizontal" 
+        android:gravity="center_vertical">
+        
+        <Button
+            android:id="@+id/btn_return"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:background="@drawable/title_return"/>
+        
+        <TextView 
+            android:id="@+id/tv_check_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_myproject"
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
+        
+        <RelativeLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+            
+            <Button 
+                android:id="@+id/btn_edit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/title_edit"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"/>
+            
+        </RelativeLayout>
+        
+    </LinearLayout><!-- 标题栏END -->
+    
+    <!-- 全概栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:background="@color/item_white"
+        android:layout_marginTop="20dp">
+        
+        <LinearLayout 
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginLeft="10dp">
+            
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/picture_project_default"/>
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+            
+            <LinearLayout 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+            
+             <TextView
+                 android:id="@+id/tv_general_theme"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/list_theme"
+                 android:textColor="@color/text_black"
+                 android:textSize="18sp"
+                 android:layout_marginTop="15dp"/>
+            
+            </LinearLayout>
+            
+            <LinearLayout 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="top">
+             
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/item_user_note"
+                    android:layout_marginTop="2dp"/>
+                
+                <TextView
+                    android:id="@+id/tv_builder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_username"
+                    android:textColor="@color/menu_gray"
+                    android:textSize="15sp"/>
+                
+            </LinearLayout>
+        
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:gravity="center">
+            
+            <ImageView 
+                android:id="@+id/iv_iscompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/item_notcompleted"/>
+            
+        </LinearLayout>
+    
+    </LinearLayout><!-- 全概栏END -->
+    
+    <!-- 主题栏 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/item_white"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical">
+        
+        <ImageView 
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/item_theme"
+            android:layout_marginLeft="20dp"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_theme"
+            android:textColor="@color/text_black"
+            android:paddingLeft="5dp"/>
+        
+        <EditText 
+            android:id="@+id/et_item_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/item_theme"
+            android:textSize="15sp"
+            android:textColor="@color/menu_gray"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:enabled="false"/>
+        
+    </LinearLayout><!-- 主题栏END -->
+    
+    <!-- 分割线 -->
+    <ImageView 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_white"/>
+    
+    <!-- 截止时间栏 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/item_white"
+        android:gravity="center_vertical">
+        
+        <ImageView 
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/item_deadline"
+            android:layout_marginLeft="20dp"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_deadline"
+            android:textColor="@color/text_black"
+            android:paddingLeft="5dp"/>
+        
+        <EditText 
+            android:id="@+id/et_item_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/item_deadline"
+            android:textSize="15sp"
+            android:textColor="@color/menu_gray"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:enabled="false"/>
+        
+    </LinearLayout><!-- 截止时间栏END -->
+    
+
+    
+    <!-- 任务详情栏 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/item_white"
+        android:layout_marginTop="20dp">
+        
+        <ImageView 
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/item_context"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_context"
+            android:textColor="@color/text_black"
+            android:paddingLeft="5dp"
+            android:layout_marginTop="15dp"/>
+        
+        <EditText 
+            android:id="@+id/et_item_context"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/item_context"
+            android:textSize="15sp"
+            android:textColor="@color/menu_gray"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:enabled="false"/>
+        
+    </LinearLayout><!-- 任务详情栏END -->
+    
+    <!-- 人员分配文字栏 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/item_white"
+        android:layout_marginTop="20dp">
+        
+        <ImageView 
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/item_people"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_people"
+            android:textColor="@color/text_black"
+            android:paddingLeft="5dp"
+            android:layout_marginTop="15dp"/>
+
+    </LinearLayout><!-- 人员分配文字栏END -->
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/item_white"
+        android:orientation="horizontal">
+        
+        <ImageView 
+            android:id="@+id/iv_people01"
+            android:layout_width="45dp" 
+            android:layout_height="45dp"
+            android:src="@drawable/people_default_01"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"/>
+        
+        <ImageView 
+            android:id="@+id/iv_people02"
+            android:layout_width="45dp" 
+            android:layout_height="45dp"
+            android:src="@drawable/people_default_02"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        
+        <ImageView 
+            android:id="@+id/iv_people03"
+            android:layout_width="45dp" 
+            android:layout_height="45dp"
+            android:src="@drawable/item_add_people"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        
+        <ImageView 
+            android:id="@+id/iv_people04"
+            android:layout_width="45dp" 
+            android:layout_height="45dp"
+            android:src="@drawable/item_add_people"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        
+        <ImageView 
+            android:id="@+id/iv_people05"
+            android:layout_width="45dp" 
+            android:layout_height="45dp"
+            android:src="@drawable/item_add_people"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        
+        <ImageView 
+            android:id="@+id/iv_people06"
+            android:layout_width="45dp" 
+            android:layout_height="45dp"
+            android:src="@drawable/item_add_people"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        
+    </LinearLayout>
+    
+    <!-- 发布按钮区与删除按钮 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+            
+            <Button
+                android:id="@+id/btn_declare"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:text="@string/btn_declare"
+                android:textColor="@color/item_white"
+                android:background="@drawable/btn_declare"/>
+   
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/btn_delete"
+                android:textColor="@color/item_white"
+                android:background="@drawable/btn_declare"/>
+
+    </LinearLayout><!-- 发布按钮区与删除按钮END -->
+    
+</LinearLayout><!-- END -->
+
+</ScrollView>

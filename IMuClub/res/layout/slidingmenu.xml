@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/slidingmenu"
+    android:orientation="vertical" >
+    
+
+    <!-- 用户头像区 -->
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <ImageView 
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/menu_user_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"/>
+        
+        <ImageView 
+            android:id="@+id/iv_user_picture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/people_default_01"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="1dp"/>
+        
+    </FrameLayout>
+    
+    <!-- 用户资料区 -->
+    <TextView 
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_user_name02"
+        android:textColor="@color/text_white"
+        android:layout_gravity="center_horizontal"/>
+    
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        
+        <ImageView 
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/menu_locate"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="@string/menu_userlocate"
+            android:textColor="@color/text_white"
+            android:gravity="center"/>
+        
+    </LinearLayout>
+    
+    <!-- 用户选择区 -->
+    
+    <ImageView 
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_white"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"/>
+    
+    <!-- 我的项目 -->
+    
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    
+    <Button 
+        android:id="@+id/ll_myproject"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@color/menu_gray"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <ImageView 
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/menu_myproject"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_userselect1"
+            android:textColor="@color/text_white"
+            android:paddingLeft="10dp"/>
+        
+    </LinearLayout>
+    
+    </FrameLayout>
+    
+    <ImageView 
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_white"
+            android:layout_gravity="center"/>
+    
+    <!-- 我的任务 -->
+    
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    
+    <Button 
+        android:id="@+id/ll_mytask"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@color/menu_gray"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <ImageView 
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/menu_mytask"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_userselect2"
+            android:textColor="@color/text_white"
+            android:paddingLeft="10dp"/>
+        
+    </LinearLayout>
+    
+    </FrameLayout>
+    
+    <ImageView 
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_white"
+            android:layout_gravity="center"/>
+    
+    <!-- 人员列表 -->   
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    
+    <Button 
+        android:id="@+id/ll_peoplelist"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@color/menu_gray"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <ImageView 
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/menu_peoplelist"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_userselect3"
+            android:textColor="@color/text_white"
+            android:paddingLeft="10dp"/>
+        
+    </LinearLayout>
+    
+    </FrameLayout>
+    
+    <ImageView 
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_white"
+            android:layout_gravity="center"/>
+    
+    <!-- 我的消息 -->
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    
+    <Button 
+        android:id="@+id/ll_mymessage"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@color/menu_gray"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <ImageView 
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/menu_message"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_userselect4"
+            android:textColor="@color/text_white"
+            android:paddingLeft="10dp"/>
+        
+    </LinearLayout>
+    
+    </FrameLayout>
+    
+    <ImageView 
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_white"
+            android:layout_gravity="center"/>
+   
+    <RelativeLayout 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp">
+        
+        <LinearLayout 
+            android:id="@+id/ll_exit_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+            
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/exit_login"/>
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_exit_login"
+                android:textColor="@color/item_white"
+                android:paddingLeft="5dp"/>
+        
+        </LinearLayout>
+        
+    </RelativeLayout>
+    
+</LinearLayout>

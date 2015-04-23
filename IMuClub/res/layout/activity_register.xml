@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_gray"
+    android:orientation="vertical" >
+
+    <Button 
+        android:id="@+id/btn_register_return"
+        android:layout_width="28dp"
+        android:layout_height="45dp"
+        android:background="@drawable/register_return"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+    
+    <ImageView 
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:src="@drawable/register_logo"
+        android:layout_marginLeft="180dp"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        
+        <EditText 
+            android:id="@+id/et_name"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/register_editor"
+            android:hint="@string/register_name"
+            android:ems="10"
+            android:paddingLeft="10dp"/>
+        
+        <EditText 
+            android:id="@+id/et_num"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/register_editor"
+            android:hint="@string/register_num"
+            android:ems="10"
+            android:paddingLeft="10dp"/>
+        
+        <EditText 
+            android:id="@+id/et_club"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/register_editor"
+            android:hint="@string/register_club"
+            android:ems="10"
+            android:paddingLeft="10dp"/>
+        
+        <EditText 
+            android:id="@+id/et_pin"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/register_editor"
+            android:hint="@string/register_pin"
+            android:password="true"
+            android:ems="10"
+            android:paddingLeft="10dp"/>
+        
+    </LinearLayout>
+   
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="310dp"
+        android:layout_height="60dp"
+        android:background="@drawable/login_button_stytle"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/btn_register"
+        android:textColor="#ffffff"/>
+    
+ <!--  
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="name"
+        >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Id"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/club"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Club" 
+        />
+
+   
+    <EditText
+        android:id="@+id/password1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="PassWord"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/regist1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="register"
+        android:text="Register" />-->
+
+</LinearLayout>
