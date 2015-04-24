@@ -3,6 +3,10 @@ package com.example.imuclub;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+
 import com.example.adapter.ItemAdapter;
 import com.example.model.TaskModel;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -13,6 +17,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +32,12 @@ public class AllTaskFragment extends Fragment {
 
 	private List<TaskModel> list = new ArrayList<TaskModel>(); // 存放列表项内容
 
-	@Override
+	
+	//查找我的任务
+	public static List<TaskModel> MyTaskList;
+	private BmobQuery<TaskModel> MyTaskQuery; 
+	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -44,6 +54,7 @@ public class AllTaskFragment extends Fragment {
 
 		//模拟从网络读取数据
 		getDataFromIntent();
+		
 
 		// 列表项点击响应事件
 		lv_alltask.setOnItemClickListener(new OnItemClickListener() {
@@ -54,6 +65,7 @@ public class AllTaskFragment extends Fragment {
 				Intent intent = new Intent();
 				intent.setClassName("com.example.imuclub",
 						"com.example.imuclub.TaskCheckOrEditActivity");
+				
 				intent.putExtra("project_theme", list.get(position - 1)
 						.getTheme());
 				intent.putExtra("project_deadline", list.get(position - 1)
@@ -64,6 +76,7 @@ public class AllTaskFragment extends Fragment {
 						.getTask());
 				intent.putExtra("project_iscompleted", list.get(position - 1)
 						.isIscomplete());
+				intent.putExtra("ObjectId", list.get(position-1).getObjectId());
 				intent.putExtra("project_tab", 2);
 				startActivity(intent);
 			}
@@ -102,28 +115,9 @@ public class AllTaskFragment extends Fragment {
 
 	private void getDataFromIntent() {
 		
-		//初始化
-		list = new ArrayList<TaskModel>();
+		list = IMuClubActivity.TaskList;
 				
-		// 模仿数据读取
-		TaskModel taskModel01 = new TaskModel();
-		taskModel01.setTheme("迎新晚会");
-		taskModel01.setDeadline("2014/10/17");
-		taskModel01.setBuilder("计算机学院学生会");  //默认创建者为计算机学院学生会
-		taskModel01.setTask("筹划迎新晚会");
-		taskModel01.setIsdeclare(true);
-		taskModel01.setIscomplete(true);
-		list.add(taskModel01);
 		
-		TaskModel taskModel02 = new TaskModel();
-		taskModel02.setTheme("阳光体育");
-		taskModel02.setDeadline("2015/4/15");
-		taskModel02.setBuilder("计算机学院学生会");
-		taskModel02.setTask("举行阳光体育活动");
-		taskModel02.setIsdeclare(true);
-		taskModel02.setIscomplete(false);
-		list.add(taskModel02);
-
 		adapter = new ItemAdapter(getActivity(), list); // 重新添加适配器以更新
 		lv_alltask.setAdapter(adapter);
 

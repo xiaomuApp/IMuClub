@@ -91,11 +91,17 @@ public class IMuClubActivity extends FragmentActivity implements
 
 	private static UserInfor username;
 
-	private UserInfor user;
+	//查找人员
+	public static UserInfor user;
 	private String InstallationId = "";
 	private BmobQuery<UserInfor> peoplequery;
 	public static ArrayList<UserInfor> PeopleList;
+	
+	//查找我对应的任务
+	public static List<TaskModel> TaskList;
+	private BmobQuery<TaskModel> TaskQuery; 
 
+	
 	// 操作标志
 	private int selectItem = 0; // 0代表选择“我的项目”，1代表“我的任务”，2代表“人员列表”，3代表“我的消息”
 
@@ -110,6 +116,7 @@ public class IMuClubActivity extends FragmentActivity implements
 			mTask.setShow(true);
 		}
 		// 获取数据
+		//获取与之相对的社团的人员列表
 		username = BmobUser.getCurrentUser(IMuClubActivity.this,
 				UserInfor.class);// 获取当前登陆者的信息，姓名，学号
 		
@@ -154,6 +161,28 @@ public class IMuClubActivity extends FragmentActivity implements
 					}
 				});
 
+		//获取自己的任务列表
+		TaskList=new ArrayList<TaskModel>();
+		TaskQuery=new BmobQuery<TaskModel>();
+		TaskQuery.addWhereEqualTo("StudentId", user.getId());
+		TaskQuery.findObjects(IMuClubActivity.this, new FindListener<TaskModel>() {
+			
+			@Override
+			public void onSuccess(List<TaskModel> list) {
+				for(TaskModel Task:list)
+				{
+					TaskList.add(Task);
+				}
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 		initMenu(); // 初始化Menu
 		initView(); // 初始化View
 		initTabline(); // 初始化tabline

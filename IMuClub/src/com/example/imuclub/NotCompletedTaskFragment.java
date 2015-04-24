@@ -104,19 +104,18 @@ public class NotCompletedTaskFragment extends Fragment {
 	private void getDataFromIntent() {
 		
 		//初始化
-		list = new ArrayList<TaskModel>();
+		list = IMuClubActivity.TaskList;
+		ArrayList<TaskModel> NotCompleteList=new ArrayList<TaskModel>();
 		
-		// 模仿数据读取
-		TaskModel taskModel = new TaskModel();
-		taskModel.setTheme("阳光体育");
-		taskModel.setDeadline("2015/4/15");
-		taskModel.setBuilder("计算机学院学生会");
-		taskModel.setTask("举行阳光体育活动");
-		taskModel.setIsdeclare(true);
-		taskModel.setIscomplete(false);
-		list.add(taskModel);
+		for(TaskModel Task:list)
+		{
+			if(!Task.isIscomplete())
+				NotCompleteList.add(Task);
+		}
+		
+		
 
-		adapter = new ItemAdapter(getActivity(), list); // 重新添加适配器以更新
+		adapter = new ItemAdapter(getActivity(), NotCompleteList); // 重新添加适配器以更新
 		lv_notcompletedtask.setAdapter(adapter);
 	}
 }

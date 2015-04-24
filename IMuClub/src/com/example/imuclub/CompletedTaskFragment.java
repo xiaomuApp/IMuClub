@@ -103,9 +103,17 @@ public class CompletedTaskFragment extends Fragment {
 	private void getDataFromIntent() {
 		
 		//初始化
-		list = new ArrayList<TaskModel>();
+		list = IMuClubActivity.TaskList;
+		
+		ArrayList<TaskModel> TaskList=new ArrayList<TaskModel>();
+		for(TaskModel task:list)
+		{
+			if(task.isIscomplete()==true)
+			     TaskList.add(task);
+		}
 				
 		// 模仿数据读取
+		/*
 		TaskModel taskModel = new TaskModel();
 		taskModel.setTheme("迎新晚会");
 		taskModel.setDeadline("2014/10/17");
@@ -114,8 +122,8 @@ public class CompletedTaskFragment extends Fragment {
 		taskModel.setIsdeclare(true);
 		taskModel.setIscomplete(true);
 		list.add(taskModel);
-
-		adapter = new ItemAdapter(getActivity(), list); // 重新添加适配器以更新
+		*/
+		adapter = new ItemAdapter(getActivity(), TaskList); // 重新添加适配器以更新
 		lv_completedtask.setAdapter(adapter);
 	}
 }

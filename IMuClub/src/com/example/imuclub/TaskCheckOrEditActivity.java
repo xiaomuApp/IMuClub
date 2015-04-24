@@ -1,7 +1,6 @@
 package com.example.imuclub;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +18,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.push.BmobPush;
@@ -28,6 +26,7 @@ import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobPushManager;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import com.example.model.TaskModel;
 import com.example.model.UserInfor;
@@ -72,6 +71,9 @@ public class TaskCheckOrEditActivity extends Activity implements
 	
 	private TextView checkPeopleTV;
 
+	//获取任务
+		private TaskModel Task;
+		private String ObjectId; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -106,6 +108,7 @@ public class TaskCheckOrEditActivity extends Activity implements
 		iv_people06 = (ImageView) findViewById(R.id.iv_people06);
 
 		// 获得并设置Activity内容
+		
 		Bundle bundle = getIntent().getExtras();
 		tv_check_title.setText(bundle.getString("project_theme")); // 设置标题
 		tv_general_theme.setText(bundle.getString("project_theme")); // 设置标题
@@ -114,6 +117,7 @@ public class TaskCheckOrEditActivity extends Activity implements
 		et_item_deadline.setText(bundle.getString("project_deadline")); // 设置截止时间
 		et_item_context.setText(bundle.getString("project_task"));
 		
+		ObjectId=bundle.getString("ObjectId");
 		checkPeopleTV = (TextView) findViewById(R.id.checkPeopleTV);
 		
 
@@ -299,6 +303,25 @@ public class TaskCheckOrEditActivity extends Activity implements
 		case R.id.btn_declare:
 			Button button = (Button) v;
 			if (button.getText() == "完成反馈") {
+				
+				Task=new TaskModel();
+				Task.setIscomplete(true);
+				//更新服务器上的任务是否完成信息
+				Task.update(TaskCheckOrEditActivity.this, ObjectId,
+						new UpdateListener() {
+
+							@Override
+							public void onSuccess() {
+
+								Log.d("输出", "任务完成");
+							}
+
+							@Override
+							public void onFailure(int arg0, String arg1) {
+
+							}
+						});
+				
 				String text = "项目\"" + tv_check_title.getText() + "\"反馈成功";
 				Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 				finish();
