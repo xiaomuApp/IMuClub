@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressLint("ResourceAsColor")
@@ -53,6 +54,7 @@ public class PeopleItemAdapter extends BaseAdapter{
 		TextView tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
 		Button btn_user_name = (Button) view.findViewById(R.id.btn_user_name);
 		TextView tv_people_position = (TextView) view.findViewById(R.id.tv_people_position);
+		ImageView iv_iscompleted = (ImageView) view.findViewById(R.id.iv_iscompleted);
 
 		
 		for (int i=0;i<=position;i++){
@@ -60,7 +62,11 @@ public class PeopleItemAdapter extends BaseAdapter{
 			tv_people_name.setText(friend[position].getName());
 			btn_user_name.setText(friend[position].getNickname());
 			tv_people_position.setText(friend[position].getPosition());
-			
+			if(mData.get(position).isVisible()){
+				iv_iscompleted.setVisibility(View.VISIBLE);
+			}else{
+				iv_iscompleted.setVisibility(View.GONE);
+			}
 		}
 		return view;
 	}

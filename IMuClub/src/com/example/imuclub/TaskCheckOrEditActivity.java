@@ -32,6 +32,7 @@ import cn.bmob.v3.listener.SaveListener;
 import com.example.model.TaskModel;
 import com.example.model.UserInfor;
 
+
 public class TaskCheckOrEditActivity extends Activity implements
 		OnClickListener, OnTouchListener {
 
@@ -39,8 +40,9 @@ public class TaskCheckOrEditActivity extends Activity implements
 	private static TaskModel mTask = new TaskModel();
 	private TaskModel mTask1;
 	private String APPID = "5d04bd96d646a589a78979f7b509f4fe";
-	private ArrayList<UserInfor> peoplelist = new ArrayList<UserInfor>();//定义所选中的人员的信息list
 	private ArrayList<String> InstallationIdList;
+	private ArrayList<UserInfor> peoplelist = new ArrayList<UserInfor>();//定义所选中的人员的信息list
+	private ArrayList<Integer> peoplePosition = new ArrayList<Integer>(); //暂时存储被选人员的列表中的位置
 
 	// 标题栏控件
 	private Button btn_return; // 返回按钮
@@ -291,6 +293,7 @@ public class TaskCheckOrEditActivity extends Activity implements
 			Intent intent = new Intent();
 			intent.setClassName("com.example.imuclub",
 					"com.example.imuclub.PeopleSelectActivity");
+			intent.putIntegerArrayListExtra("checkPeoplePosition", peoplePosition);
 			startActivityForResult(intent, 0);
 			break;
 		case R.id.btn_declare:
@@ -330,6 +333,8 @@ public class TaskCheckOrEditActivity extends Activity implements
 					BmobQuery<BmobInstallation> query = new BmobQuery<BmobInstallation>();// 查询
 					
 					//此处获取到所选中的人员的信息列表存放在peoplelist
+					Log.d("peoplelist", String.valueOf(peoplelist.size()));
+					
 					for(UserInfor people:peoplelist)
 					{
 						System.out.println("发布任务给"+people.getUsername()+"id:"+people.getId()+"installationId:"+people.getInstallationId());
@@ -352,7 +357,7 @@ public class TaskCheckOrEditActivity extends Activity implements
 					}
 					
 					Log.d("手机id", String.valueOf(InstallationIdList.size()));
-					query.addWhereContainedIn("installationId", peoplelist);
+					query.addWhereContainedIn("installationId", InstallationIdList);
 					JSONObject object = new JSONObject();
 					try {
 						object.put("subject", mTask1.getTheme());
@@ -408,10 +413,10 @@ public class TaskCheckOrEditActivity extends Activity implements
 		super.onActivityResult(requestCode, resultCode, data);
 		switch(resultCode){
 		case 101:
-			ArrayList<Integer> peoplePosition;
 			peoplePosition = data.getIntegerArrayListExtra("checkedPeoplePosition");
 			if(peoplePosition != null){
 				checkPeopleTV.setText("");
+				peoplelist.clear();
 				for(int p:peoplePosition){
 					UserInfor people = IMuClubActivity.PeopleList.get(p);
 					peoplelist.add(people);

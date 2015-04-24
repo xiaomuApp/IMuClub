@@ -28,12 +28,12 @@ public class AllPeopleFragment extends Fragment {
 	private PeopleItemAdapter adapter; // 列表现适配器
 	private Button btn_add; // 添加项目按钮
 
-	private List<PeopleModel> list = new ArrayList<PeopleModel>(); // 存放列表项内容
+	private List<PeopleModel> list; // 存放列表项内容
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		return inflater.inflate(R.layout.tab_allpeople, container, false);
 	}
 
@@ -42,12 +42,11 @@ public class AllPeopleFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 
-		lv_allpeople = (PullToRefreshListView) getActivity().findViewById(
-				R.id.lv_allpeople);
-		btn_add = (Button) getActivity().findViewById(R.id.btn_add);
-
 		//模拟从网络读取数据
 		getDataFromIntent();
+		
+		btn_add = (Button) getActivity().findViewById(R.id.btn_add);
+
 
 		btn_add.setOnClickListener(new OnClickListener() { // 点击添加按钮添加新的未编辑的列表项
 			@Override
@@ -104,42 +103,9 @@ public class AllPeopleFragment extends Fragment {
 
 	private void getDataFromIntent() {
 		// 模仿数据读取
-		/*PeopleModel peopleModel01 = new PeopleModel();
-		peopleModel01.setName("池学辉");
-		peopleModel01.setNickname("安卓组组长");
-		peopleModel01.setPosition("部长");
-		list.add(peopleModel01);
-
-		PeopleModel peopleModel02 = new PeopleModel();
-		peopleModel02.setName("龙宇文");
-		peopleModel02.setNickname("安卓组组员");
-		peopleModel02.setPosition("干事");
-		list.add(peopleModel02);
-
-		PeopleModel peopleModel03 = new PeopleModel();
-		peopleModel03.setName("冼立志");
-		peopleModel03.setNickname("安卓组组员");
-		peopleModel03.setPosition("干事");
-		list.add(peopleModel03);
-		
-		PeopleModel peopleModel04 = new PeopleModel();
-		peopleModel04.setName("吴伟峰");
-		peopleModel04.setNickname("安卓组组员");
-		peopleModel04.setPosition("干事");
-		list.add(peopleModel04);
-		
-		PeopleModel peopleModel05 = new PeopleModel();
-		peopleModel05.setName("黄炫");
-		peopleModel05.setNickname("安卓组组员");
-		peopleModel05.setPosition("干事");
-		list.add(peopleModel05);
-		
-		PeopleModel peopleModel06 = new PeopleModel();
-		peopleModel06.setName("周楚鹏");
-		peopleModel06.setNickname("UI组长");
-		peopleModel06.setPosition("部长");
-		list.add(peopleModel06);*/
-		
+		list = new ArrayList<PeopleModel>();
+		lv_allpeople = (PullToRefreshListView) getActivity().findViewById(
+				R.id.lv_allpeople);
 		System.out.println(">>>>>>>>>>>>>>>>>test PeopleList");
 		List<UserInfor> peopleList = IMuClubActivity.PeopleList;
 		if(peopleList!=null){

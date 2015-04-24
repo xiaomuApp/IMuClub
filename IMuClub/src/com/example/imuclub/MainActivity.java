@@ -119,46 +119,6 @@ public class MainActivity extends Activity {
 		user = BmobUser.getCurrentUser(MainActivity.this, UserInfor.class);// 获取缓存的登陆者，不需要进行再次输入登陆者信息
 		if (user != null)// 如果当前的登陆者信息不为空则直接登录不需要进行输入
 		{
-			user.setInstallationId(InstallationId);
-			user.update(this, user.getObjectId(), new UpdateListener() {// 获取当前登录的用户的手机id，并进行修改进入user
-
-						@Override
-						public void onSuccess() {
-							android.util.Log.d("输出", "修改成功");
-
-						}
-
-						@Override
-						public void onFailure(int arg0, String arg1) {
-							android.util.Log.d("输出", "修改失败");
-
-						}
-					});
-
-			PeopleList = new ArrayList<UserInfor>();
-			peoplequery = new BmobQuery<UserInfor>();
-			peoplequery.addWhereEqualTo("club", user.getClub());
-			peoplequery.findObjects(MainActivity.this,
-					new FindListener<UserInfor>() {
-
-						@Override
-						public void onSuccess(List<UserInfor> list) {
-							for (UserInfor people : list) {
-								PeopleList.add(people);
-							}
-							//android.util.Log.d("输出人数", String.valueOf(PeopleList.size()));
-
-						}
-
-						
-						// 已从网上获取到与登陆者相同社团的人员信息，存放在PeopleList里面
-						public void onError(int arg0, String arg1) {
-
-						}
-					});
-
-			android.util.Log.d("输出人数", String.valueOf(PeopleList.size()));
-			
 			Intent intenta = new Intent(MainActivity.this,
 					IMuClubActivity.class);
 			startActivity(intenta);

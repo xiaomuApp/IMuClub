@@ -39,6 +39,9 @@ public class PeopleSelectActivity extends FragmentActivity {
 
 		btn_select_return = (Button) findViewById(R.id.btn_select_return);
 		lv_select_list = (PullToRefreshListView) findViewById(R.id.lv_select_list);
+		
+		listPosition = getIntent().getIntegerArrayListExtra("checkPeoplePosition");//冲编辑任务中获取已经选择的人
+		
 
 		btn_select_return.setOnClickListener(new OnClickListener() {
 			@Override
@@ -57,8 +60,17 @@ public class PeopleSelectActivity extends FragmentActivity {
 				PeopleModel peopleModel = new PeopleModel();
 				peopleModel.setName(people.getUsername());
 				peopleModel.setNickname(people.getClub());
-				peopleModel.setPosition(people.getUpdatedAt());
+				peopleModel.setPosition(people.getId());
 				list.add(peopleModel);
+			}
+			if(listPosition!=null){
+				System.out.println("从编辑任务中获得已选的人个数："+listPosition.size());
+				for(int p: listPosition){
+					list.get(p).setVisible(true);
+					System.out.println("从编辑任务中获得已选的人："+list.get(p).getName());
+				}
+			}else{
+				System.out.println("没有从编辑任务中获得已选的人");
 			}
 		}else{
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>no data >>>>>>.");
@@ -72,10 +84,15 @@ public class PeopleSelectActivity extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if(listPosition.contains(position)){
-					listPosition.remove(position-1);
+				System.out.println("点击的列表项"+position);
+				if(listPosition.contains(position-1)){
+					listPosition.remove(new Integer(position-1));
+					list.get(position-1).setVisible(false);
+					adapter.notifyDataSetChanged();
 				}else{
 					listPosition.add(position-1);
+					list.get(position-1).setVisible(true);
+					adapter.notifyDataSetChanged();
 				}
 			}
 		});
