@@ -3,21 +3,23 @@ package com.example.imuclub;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.adapter.PeopleItemAdapter;
-import com.example.model.PeopleModel;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.example.adapter.PeopleItemAdapter;
+import com.example.model.PeopleModel;
+import com.example.model.UserInfor;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class PeopleSelectActivity extends FragmentActivity {
 
@@ -26,6 +28,8 @@ public class PeopleSelectActivity extends FragmentActivity {
 
 	private PeopleItemAdapter adapter; // 列表现适配器
 	private List<PeopleModel> list = new ArrayList<PeopleModel>(); // 存放列表项内容
+	
+	private List<Integer> listPosition = new ArrayList<Integer>();// 选中的人多列表位置
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,41 +48,21 @@ public class PeopleSelectActivity extends FragmentActivity {
 		});
 
 		// 模拟数据
-		PeopleModel peopleModel01 = new PeopleModel();
-		peopleModel01.setName("池学辉");
-		peopleModel01.setNickname("安卓组组长");
-		peopleModel01.setPosition("部长");
-		list.add(peopleModel01);
-
-		PeopleModel peopleModel02 = new PeopleModel();
-		peopleModel02.setName("龙宇文");
-		peopleModel02.setNickname("安卓组组员");
-		peopleModel02.setPosition("干事");
-		list.add(peopleModel02);
-
-		PeopleModel peopleModel03 = new PeopleModel();
-		peopleModel03.setName("冼立志");
-		peopleModel03.setNickname("安卓组组员");
-		peopleModel03.setPosition("干事");
-		list.add(peopleModel03);
 		
-		PeopleModel peopleModel04 = new PeopleModel();
-		peopleModel04.setName("吴伟峰");
-		peopleModel04.setNickname("安卓组组员");
-		peopleModel04.setPosition("干事");
-		list.add(peopleModel04);
-		
-		PeopleModel peopleModel05 = new PeopleModel();
-		peopleModel05.setName("黄炫");
-		peopleModel05.setNickname("安卓组组员");
-		peopleModel05.setPosition("干事");
-		list.add(peopleModel05);
-		
-		PeopleModel peopleModel06 = new PeopleModel();
-		peopleModel06.setName("周楚鹏");
-		peopleModel06.setNickname("UI组长");
-		peopleModel06.setPosition("部长");
-		list.add(peopleModel06);
+		System.out.println(">>>>>>>>>>>>>>>>>test PeopleList");
+		List<UserInfor> peopleList = IMuClubActivity.PeopleList;
+		if(peopleList!=null){
+			for(UserInfor people:peopleList){
+				System.out.println(">>>>>>>>>>>>>>>>>>>>"+people.getClub()+": 名字："+people.getUsername());
+				PeopleModel peopleModel = new PeopleModel();
+				peopleModel.setName(people.getUsername());
+				peopleModel.setNickname(people.getClub());
+				peopleModel.setPosition(people.getUpdatedAt());
+				list.add(peopleModel);
+			}
+		}else{
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>no data >>>>>>.");
+		}
 
 		adapter = new PeopleItemAdapter(this, list);
 		lv_select_list.setAdapter(adapter);
@@ -88,7 +72,11 @@ public class PeopleSelectActivity extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				finish();
+				if(listPosition.contains(position)){
+					listPosition.remove(position-1);
+				}else{
+					listPosition.add(position-1);
+				}
 			}
 		});
 
@@ -111,17 +99,6 @@ public class PeopleSelectActivity extends FragmentActivity {
 					// 执行事件
 					protected void onPostExecute(Void result) {
 						// 模仿数据读取
-						PeopleModel peopleModel01 = new PeopleModel();
-						peopleModel01.setName("周楚鹏");
-						peopleModel01.setNickname("捡肥皂的屌丝");
-						peopleModel01.setPosition("部长");
-						list.add(peopleModel01);
-
-						PeopleModel peopleModel02 = new PeopleModel();
-						peopleModel02.setName("何倩");
-						peopleModel02.setNickname("下一站、再见");
-						peopleModel02.setPosition("干事");
-						list.add(peopleModel02);
 
 						adapter = new PeopleItemAdapter(
 								PeopleSelectActivity.this, list); // 重新添加适配器以更新
@@ -130,6 +107,24 @@ public class PeopleSelectActivity extends FragmentActivity {
 						lv_select_list.onRefreshComplete();
 					};
 				}.execute();
+			}
+		});
+		
+		findViewById(R.id.btn_select_confirm).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putIntegerArrayList("checkedPeoplePosition", (ArrayList<Integer>) listPosition);
+				System.out.println(">>>>>>>>>>>>>选中的位置有");
+				for(int p:listPosition){
+					System.out.println(">>>>>>>>>>>>>>>>>"+listPosition);
+				}
+				intent.putExtras(bundle);
+				setResult(101, intent);
+				finish();
+				
 			}
 		});
 	}

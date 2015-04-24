@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.adapter.PeopleItemAdapter;
 import com.example.model.PeopleModel;
+import com.example.model.UserInfor;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -103,7 +104,7 @@ public class AllPeopleFragment extends Fragment {
 
 	private void getDataFromIntent() {
 		// 模仿数据读取
-		PeopleModel peopleModel01 = new PeopleModel();
+		/*PeopleModel peopleModel01 = new PeopleModel();
 		peopleModel01.setName("池学辉");
 		peopleModel01.setNickname("安卓组组长");
 		peopleModel01.setPosition("部长");
@@ -137,7 +138,23 @@ public class AllPeopleFragment extends Fragment {
 		peopleModel06.setName("周楚鹏");
 		peopleModel06.setNickname("UI组长");
 		peopleModel06.setPosition("部长");
-		list.add(peopleModel06);
+		list.add(peopleModel06);*/
+		
+		System.out.println(">>>>>>>>>>>>>>>>>test PeopleList");
+		List<UserInfor> peopleList = IMuClubActivity.PeopleList;
+		if(peopleList!=null){
+			for(UserInfor people:peopleList){
+				System.out.println(">>>>>>>>>>>>>>>>>>>>"+people.getClub()+": 名字："+people.getUsername());
+				PeopleModel peopleModel = new PeopleModel();
+				peopleModel.setName(people.getUsername());
+				peopleModel.setNickname(people.getClub());
+				peopleModel.setPosition(people.getUpdatedAt());
+				list.add(peopleModel);
+			}
+		}else{
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>no data >>>>>>.");
+		}
+		
 		
 		adapter = new PeopleItemAdapter(getActivity(), list); // 重新添加适配器以更新
 		lv_allpeople.setAdapter(adapter);

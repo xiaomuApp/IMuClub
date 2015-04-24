@@ -1,6 +1,7 @@
 package com.example.imuclub;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.push.BmobPush;
@@ -37,7 +39,7 @@ public class TaskCheckOrEditActivity extends Activity implements
 	private static TaskModel mTask = new TaskModel();
 	private TaskModel mTask1;
 	private String APPID = "5d04bd96d646a589a78979f7b509f4fe";
-	private ArrayList<UserInfor> peoplelist;//定义所选中的人员的信息list
+	private ArrayList<UserInfor> peoplelist = new ArrayList<UserInfor>();//定义所选中的人员的信息list
 	private ArrayList<String> InstallationIdList;
 
 	// 标题栏控件
@@ -65,6 +67,8 @@ public class TaskCheckOrEditActivity extends Activity implements
 	private ImageView iv_people04;
 	private ImageView iv_people05;
 	private ImageView iv_people06;
+	
+	private TextView checkPeopleTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +76,11 @@ public class TaskCheckOrEditActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_check_or_edit);
-
+		
 		Bmob.initialize(this, APPID);
 		BmobInstallation.getCurrentInstallation(this).save();
 		BmobPush.startWork(this, APPID);
+		
 
 		// 初始化View
 		btn_return = (Button) findViewById(R.id.btn_return); // 返回按钮
@@ -106,6 +111,9 @@ public class TaskCheckOrEditActivity extends Activity implements
 		et_item_theme.setText(bundle.getString("project_theme")); // 设置标题
 		et_item_deadline.setText(bundle.getString("project_deadline")); // 设置截止时间
 		et_item_context.setText(bundle.getString("project_task"));
+		
+		checkPeopleTV = (TextView) findViewById(R.id.checkPeopleTV);
+		
 
 		// 设置任务是否完成标志
 		if (bundle.getBoolean("project_iscompleted"))
@@ -283,7 +291,7 @@ public class TaskCheckOrEditActivity extends Activity implements
 			Intent intent = new Intent();
 			intent.setClassName("com.example.imuclub",
 					"com.example.imuclub.PeopleSelectActivity");
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 			break;
 		case R.id.btn_declare:
 			Button button = (Button) v;
@@ -306,7 +314,6 @@ public class TaskCheckOrEditActivity extends Activity implements
 
 				else {
 					InstallationIdList=new ArrayList<String>();
-					peoplelist=new ArrayList<UserInfor>();
 					
 					mTask1 = new TaskModel();
 					mTask1.setTheme(et_item_theme.getText().toString().trim());
@@ -323,9 +330,9 @@ public class TaskCheckOrEditActivity extends Activity implements
 					BmobQuery<BmobInstallation> query = new BmobQuery<BmobInstallation>();// 查询
 					
 					//此处获取到所选中的人员的信息列表存放在peoplelist
-					
 					for(UserInfor people:peoplelist)
 					{
+						System.out.println("发布任务给"+people.getUsername()+"id:"+people.getId()+"installationId:"+people.getInstallationId());
 						mTask1.setStudentId(people.getId());
 						InstallationIdList.add(people.getInstallationId());
 						mTask1.save(TaskCheckOrEditActivity.this, new SaveListener() {
@@ -395,4 +402,28 @@ public class TaskCheckOrEditActivity extends Activity implements
 		TaskCheckOrEditActivity.mTask = mTask;
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		switch(resultCode){
+		case 101:
+			ArrayList<Integer> peoplePosition;
+			peoplePosition = data.getIntegerArrayListExtra("checkedPeoplePosition");
+			if(peoplePosition != null){
+				checkPeopleTV.setText("");
+				for(int p:peoplePosition){
+					UserInfor people = IMuClubActivity.PeopleList.get(p);
+					peoplelist.add(people);
+					checkPeopleTV.append(people.getUsername()+" ");
+					System.out.println(people.getUsername()+">>>>>>>>>>>>>>>>.");
+				}
+				System.out.println("获得的总人数为："+peoplelist.size());
+			}else{
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>no people position");
+			}
+			break;
+		}
+	}
+	
 }

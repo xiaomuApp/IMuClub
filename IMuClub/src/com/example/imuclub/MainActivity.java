@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
 							for (UserInfor people : list) {
 								PeopleList.add(people);
 							}
-							android.util.Log.d("输出人数", String.valueOf(PeopleList.size()));
+							//android.util.Log.d("输出人数", String.valueOf(PeopleList.size()));
 
 						}
 
@@ -157,50 +157,28 @@ public class MainActivity extends Activity {
 						}
 					});
 
+			android.util.Log.d("输出人数", String.valueOf(PeopleList.size()));
+			
 			Intent intenta = new Intent(MainActivity.this,
 					IMuClubActivity.class);
 			startActivity(intenta);
 			finish();
 		} else {
+			
+			user = new UserInfor();
+			
 			btn_login.setOnClickListener(new OnClickListener() {// 登录按钮
 
 						@Override
 						public void onClick(View v) {
-							user = new UserInfor();
-							user.setInstallationId(InstallationId);
 							user.setUsername(et_login_user.getText().toString()
 									.trim());
 							user.setPassword(et_login_pin.getText().toString()
 									.trim());
 							user.login(MainActivity.this, new SaveListener() {
 
-								@Override
+								
 								public void onSuccess() {
-
-									PeopleList = new ArrayList<UserInfor>();
-									peoplequery = new BmobQuery<UserInfor>();
-									peoplequery.addWhereEqualTo("club",
-											user.getClub());
-									peoplequery.findObjects(MainActivity.this,
-											new FindListener<UserInfor>() {
-
-												@Override
-												public void onSuccess(
-														List<UserInfor> list) {
-													for (UserInfor people : list) {
-														PeopleList.add(people);
-														System.out
-																.println(people.getClub()+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-													}
-
-												}
-
-												// 已从网上获取到与登陆者相同社团的人员信息，存放在PeopleList里面
-												public void onError(int arg0,
-														String arg1) {
-
-												}
-											});
 
 									Intent i = new Intent(MainActivity.this,
 											IMuClubActivity.class);

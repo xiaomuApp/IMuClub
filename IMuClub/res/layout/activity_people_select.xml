@@ -25,6 +25,12 @@
             android:text="@string/item_people"
             android:textColor="#ffffff"
             android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btn_select_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定" />
         
     </LinearLayout><!-- 标题栏END -->
     

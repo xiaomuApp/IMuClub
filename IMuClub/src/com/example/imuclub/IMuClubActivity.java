@@ -25,7 +25,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import com.example.model.TaskModel;
 import com.example.model.UserInfor;
@@ -34,26 +38,26 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 @SuppressLint("ResourceAsColor")
 public class IMuClubActivity extends FragmentActivity implements
 		OnTouchListener, OnClickListener, OnPageChangeListener {
-	//传入的任务
+	// 传入的任务
 	private static TaskModel mTask;
-	
-	//标志是否进入选择状态
+
+	// 标志是否进入选择状态
 	public static boolean IsCheck = false;
-	//标志是否全选
+	// 标志是否全选
 	public static boolean IsSelectAll = false;
-	
+
 	// 主界面控件
 	private Button btn_menu; // 菜单按钮
 	private Button btn_add; // 新建按钮
-	private Button btn_sure;    //全选按钮
+	private Button btn_sure; // 全选按钮
 	private TextView tv_title; // 标题
 	private ViewPager vp_myproject; // 我的项目滑动页
 	private ViewPager vp_mytask; // 我的任务滑动页
 	private ViewPager vp_peoplelist; // 人员列表滑动页
-	
-	private LinearLayout ll_title_bottom_select;    //底部选择区
-	private Button btn_bottom_sure;         //底部确定按钮
-	private Button btn_bottom_cancel;         //底部取消按钮
+
+	private LinearLayout ll_title_bottom_select; // 底部选择区
+	private Button btn_bottom_sure; // 底部确定按钮
+	private Button btn_bottom_cancel; // 底部取消按钮
 
 	// 主界面tab控件
 	private LinearLayout ll_tab01; // 第一个tab
@@ -76,7 +80,7 @@ public class IMuClubActivity extends FragmentActivity implements
 	private Button ll_mytask; // 我的任务
 	private Button ll_peoplelist; // 人员列表
 	private Button ll_mymessage; // 我的消息
-	private LinearLayout ll_exit_login;     //退出登录
+	private LinearLayout ll_exit_login; // 退出登录
 
 	// 程序变量
 	private SlidingMenu slidingmenu; // 滑动菜单
@@ -87,7 +91,11 @@ public class IMuClubActivity extends FragmentActivity implements
 
 	private static UserInfor username;
 
-	
+	private UserInfor user;
+	private String InstallationId = "";
+	private BmobQuery<UserInfor> peoplequery;
+	public static ArrayList<UserInfor> PeopleList;
+
 	// 操作标志
 	private int selectItem = 0; // 0代表选择“我的项目”，1代表“我的任务”，2代表“人员列表”，3代表“我的消息”
 
@@ -98,12 +106,54 @@ public class IMuClubActivity extends FragmentActivity implements
 		// 获取登录账号的信息
 		Intent intent = getIntent();
 		mTask = (TaskModel) intent.getSerializableExtra("Task");
-		if(mTask!=null){
+		if (mTask != null) {
 			mTask.setShow(true);
 		}
 		// 获取数据
-		username =BmobUser.getCurrentUser(IMuClubActivity.this, UserInfor.class);//获取当前登陆者的信息，姓名，学号
+		username = BmobUser.getCurrentUser(IMuClubActivity.this,
+				UserInfor.class);// 获取当前登陆者的信息，姓名，学号
 		
+		user=BmobUser.getCurrentUser(IMuClubActivity.this, UserInfor.class);
+		InstallationId = BmobInstallation.getInstallationId(this);
+		PeopleList = new ArrayList<UserInfor>();
+		peoplequery = new BmobQuery<UserInfor>();
+
+		user.setInstallationId(InstallationId);
+		user.update(IMuClubActivity.this, user.getObjectId(),
+				new UpdateListener() {
+
+					@Override
+					public void onSuccess() {
+
+					}
+
+					@Override
+					public void onFailure(int arg0, String arg1) {
+
+					}
+				});
+		peoplequery.addWhereEqualTo("club", user.getClub());
+		peoplequery.findObjects(IMuClubActivity.this,
+				new FindListener<UserInfor>() {
+
+					@Override
+					public void onSuccess(List<UserInfor> list) {
+						for (UserInfor people : list) {
+							PeopleList.add(people);
+							android.util.Log.d("输出人数", people.getUsername());
+						}
+
+						android.util.Log.d("输出人数",
+								String.valueOf(PeopleList.size()));
+
+					}
+
+					// 已从网上获取到与登陆者相同社团的人员信息，存放在PeopleList里面
+					public void onError(int arg0, String arg1) {
+
+					}
+				});
+
 		initMenu(); // 初始化Menu
 		initView(); // 初始化View
 		initTabline(); // 初始化tabline
@@ -138,16 +188,16 @@ public class IMuClubActivity extends FragmentActivity implements
 		// 主界面控件
 		btn_menu = (Button) findViewById(R.id.btn_menu); // 菜单按钮
 		btn_add = (Button) findViewById(R.id.btn_add); // 添加按钮
-		btn_sure = (Button) findViewById(R.id.btn_sure);      //全选按钮
+		btn_sure = (Button) findViewById(R.id.btn_sure); // 全选按钮
 		tv_title = (TextView) findViewById(R.id.tv_title); // 标题
 		vp_myproject = (ViewPager) findViewById(R.id.vp_myproject); // 我的项目滑动页面
 		vp_mytask = (ViewPager) findViewById(R.id.vp_mytask); // 我的任务滑动页
 		vp_peoplelist = (ViewPager) findViewById(R.id.vp_peoplelist); // 人员列表滑动页
 
-		ll_title_bottom_select = (LinearLayout) findViewById(R.id.ll_title_bottom_select);   //底部选择区
-		btn_bottom_sure = (Button) findViewById(R.id.btn_bottom_sure);         //底部确定按钮
-		btn_bottom_cancel = (Button) findViewById(R.id.btn_bottom_cancel);      //底部取消按钮
-		
+		ll_title_bottom_select = (LinearLayout) findViewById(R.id.ll_title_bottom_select); // 底部选择区
+		btn_bottom_sure = (Button) findViewById(R.id.btn_bottom_sure); // 底部确定按钮
+		btn_bottom_cancel = (Button) findViewById(R.id.btn_bottom_cancel); // 底部取消按钮
+
 		// 主界面tab控件
 		ll_tab01 = (LinearLayout) findViewById(R.id.ll_tab01);
 		ll_tab02 = (LinearLayout) findViewById(R.id.ll_tab02);
@@ -165,7 +215,7 @@ public class IMuClubActivity extends FragmentActivity implements
 		ll_mytask = (Button) findViewById(R.id.ll_mytask); // 我的任务
 		ll_peoplelist = (Button) findViewById(R.id.ll_peoplelist); // 人员列表
 		ll_mymessage = (Button) findViewById(R.id.ll_mymessage); // 我的消息
-		ll_exit_login = (LinearLayout) findViewById(R.id.ll_exit_login);   //退出登录
+		ll_exit_login = (LinearLayout) findViewById(R.id.ll_exit_login); // 退出登录
 
 		// 程序变量
 
@@ -210,17 +260,16 @@ public class IMuClubActivity extends FragmentActivity implements
 	// 根据不同选择初始化Fragment
 	private void initFragment() {
 		resetTextView(); // 将TextView颜色置为初始状态
-		
-		//如果在勾选状态，设置侧滑菜单无效化
+
+		// 如果在勾选状态，设置侧滑菜单无效化
 		if (IsCheck) {
 			slidingmenu.setSlidingEnabled(false);
-			btn_menu.setEnabled(false);       //菜单按钮无效化
-		}
-		else {
+			btn_menu.setEnabled(false); // 菜单按钮无效化
+		} else {
 			slidingmenu.setSlidingEnabled(true);
 			btn_menu.setEnabled(true);
 		}
-	
+
 		tv_allproject.setTextColor(Color.parseColor("#2680ef"));
 		mCurrentPageIndex = 0; // 设置当前页面
 		switch (selectItem) {
@@ -318,7 +367,8 @@ public class IMuClubActivity extends FragmentActivity implements
 				btn_bottom_sure.setBackgroundColor(Color.parseColor("#1b59a7"));
 				break;
 			case R.id.btn_bottom_cancel:
-				btn_bottom_cancel.setBackgroundColor(Color.parseColor("#1b59a7"));
+				btn_bottom_cancel.setBackgroundColor(Color
+						.parseColor("#1b59a7"));
 				break;
 			case R.id.ll_myproject:
 				ll_myproject.setBackgroundColor(Color.parseColor("#888888"));
@@ -351,7 +401,8 @@ public class IMuClubActivity extends FragmentActivity implements
 				btn_bottom_sure.setBackgroundColor(Color.parseColor("#2680ef"));
 				break;
 			case R.id.btn_bottom_cancel:
-				btn_bottom_cancel.setBackgroundColor(Color.parseColor("#2680ef"));
+				btn_bottom_cancel.setBackgroundColor(Color
+						.parseColor("#2680ef"));
 				break;
 			case R.id.ll_myproject:
 				ll_myproject.setBackgroundColor(Color.parseColor("#555555"));
@@ -386,7 +437,7 @@ public class IMuClubActivity extends FragmentActivity implements
 					"com.example.imuclub.TaskCheckOrEditActivity");
 			addintent.putExtra("project_theme", "未编辑");
 			addintent.putExtra("project_deadline", "未编辑");
-			addintent.putExtra("project_builder", username.getUsername());//传入账号信息
+			addintent.putExtra("project_builder", username.getUsername());// 传入账号信息
 			addintent.putExtra("project_task", "未编辑");
 			addintent.putExtra("project_iscompleted", false);
 			addintent.putExtra("project_tab", 4);
@@ -394,27 +445,27 @@ public class IMuClubActivity extends FragmentActivity implements
 
 			break;
 		case R.id.btn_sure:
-			//全选按钮
+			// 全选按钮
 			IsSelectAll = true;
 			initFragment();
 			break;
 		case R.id.btn_bottom_sure:
-			//底部确定按钮
+			// 底部确定按钮
 			IsCheck = false;
-        	//设置标题栏按钮
-        	btn_add.setVisibility(View.VISIBLE);
-        	btn_sure.setVisibility(View.INVISIBLE);
-        	ll_title_bottom_select.setVisibility(View.INVISIBLE);
-        	initFragment();
+			// 设置标题栏按钮
+			btn_add.setVisibility(View.VISIBLE);
+			btn_sure.setVisibility(View.INVISIBLE);
+			ll_title_bottom_select.setVisibility(View.INVISIBLE);
+			initFragment();
 			break;
 		case R.id.btn_bottom_cancel:
-			//底部取消按钮
+			// 底部取消按钮
 			IsCheck = false;
-        	//设置标题栏按钮
-        	btn_add.setVisibility(View.VISIBLE);
-        	btn_sure.setVisibility(View.INVISIBLE);
-        	ll_title_bottom_select.setVisibility(View.INVISIBLE);
-        	initFragment();
+			// 设置标题栏按钮
+			btn_add.setVisibility(View.VISIBLE);
+			btn_sure.setVisibility(View.INVISIBLE);
+			ll_title_bottom_select.setVisibility(View.INVISIBLE);
+			initFragment();
 			break;
 		case R.id.ll_myproject: // 菜单栏：社团活动
 			slidingmenu.toggle();
@@ -599,8 +650,7 @@ public class IMuClubActivity extends FragmentActivity implements
 		mCurrentPageIndex = position;
 
 	}
-	
-	
+
 	public static TaskModel getmTask() {
 		return mTask;
 	}
@@ -610,27 +660,26 @@ public class IMuClubActivity extends FragmentActivity implements
 	}
 
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		if (selectItem ==0 || selectItem == 1){    //只有在“社团活动”和“我的任务”里才出现菜单栏
+		if (selectItem == 0 || selectItem == 1) { // 只有在“社团活动”和“我的任务”里才出现菜单栏
 			menu.add(0, 1, 1, "搜索");
 			menu.add(0, 2, 2, "删除");
 		}
-        return super.onCreateOptionsMenu(menu);
+		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
-        if(item.getItemId() == 1){
-            Toast.makeText(this, "你选的是搜索", Toast.LENGTH_SHORT).show();
-        }
-        else if(item.getItemId() == 2){
-        	IsCheck = true;
-        	//设置标题栏按钮
-        	btn_add.setVisibility(View.INVISIBLE);
-        	btn_sure.setVisibility(View.VISIBLE);
-        	ll_title_bottom_select.setVisibility(View.VISIBLE);
-        	initFragment();
-        }
-        return true;
-    }
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		if (item.getItemId() == 1) {
+			Toast.makeText(this, "你选的是搜索", Toast.LENGTH_SHORT).show();
+		} else if (item.getItemId() == 2) {
+			IsCheck = true;
+			// 设置标题栏按钮
+			btn_add.setVisibility(View.INVISIBLE);
+			btn_sure.setVisibility(View.VISIBLE);
+			ll_title_bottom_select.setVisibility(View.VISIBLE);
+			initFragment();
+		}
+		return true;
+	}
 }
